@@ -9,8 +9,7 @@ def make_translate( x, y, z ):
     m[0][3]=x
     m[1][3]=y
     m[2][3]=z
-    return m
-                
+    return m              
                 
 
 def make_scale( x, y, z ):
