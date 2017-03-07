@@ -31,16 +31,33 @@ The file follows the following format:
 See the file script for an example of the file format
 """
 
-def parse_file( fname, points, transform, screen, color ):
+def parse_file( fname, edges, transform, screen, color ):
     cmd = open(fname,"r")
     script = cmd.read().split("\n")
     cmd.close()
-    print script
+    #print script
 
-        
-    
-    save_ppm(screen, fname)
-    return 
+    m = new_matrix()
+
+    for i in range(len(script)):
+        if script[i]=="display":
+            draw_lines(edges, screen, color)
+            save_ppm(screen, fname)
+        if script[i]=="apply":
+            parse_helper(script[i], (script[i+1]).split('\n'),[],screen,color)
+        if script[i]=="line":
+            points=(script[i+1]).split("\n")
+            add_edge(edges, points[0], points[1],points[2],points[3],points[4],points[5])
+        if script[i]=="ident":
+            transform = ident(m)
+        if script[i]=="scale":
+            parse_helper(script[i], (script[i+1]).split('\n'),[],screen,color)
+        if script[i]=="move":
+            parse_helper(script[i], (script[i+1]).split('\n'),[],screen,color)
+        if script[i]=="rotate":
+            parse_helper(script[i], (script[i+1]).split('\n'),[],screen,color)
+        if script[i]=="save":
+            save_ppm(screen, script[i+1])
 
 def parse_helper(script, points, transform, screen, color ):
-    pass
+    pass 
