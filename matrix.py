@@ -1,4 +1,5 @@
 import math
+import random
 
 def make_translate( x, y, z ):
     m = new_matrix()
@@ -6,9 +7,9 @@ def make_translate( x, y, z ):
         for c in range(len(m)):
             if c == r:
                 m[c][r]=1
-    m[0][3]=x
-    m[1][3]=y
-    m[2][3]=z
+    m[3][0]=x
+    m[3][1]=y
+    m[3][2]=z
     return m              
                 
 
@@ -55,7 +56,7 @@ def print_matrix( matrix ):
     s = ''
     for r in range( len( matrix[0] ) ):
         for c in range( len(matrix) ):
-            s+= str(matrix[c][r]) + ' '
+            s+= str(matrix[c][r]) + '\t'
         s+= '\n'
     print s
 
@@ -86,7 +87,7 @@ def matrix_mult( m1, m2 ):
                             m1[2][r] * tmp[2] +
                             m1[3][r] * tmp[3])
         point+= 1
-
+    return m2
 
 def new_matrix(rows = 4, cols = 4):
     m = []
@@ -95,3 +96,15 @@ def new_matrix(rows = 4, cols = 4):
         for r in range( rows ):
             m[c].append( 0 )
     return m
+
+#testing
+m1 = new_matrix(4,4)
+for r in range(len(m1[0])):
+    for c in range(len(m1)):
+        m1[c][r]= random.randint(0,9)
+        if (r == 3):
+            m1[c][r]=1
+print_matrix(m1)
+t1 = make_translate(1,4,2)
+print_matrix(t1)
+print_matrix(matrix_mult(t1,m1))
