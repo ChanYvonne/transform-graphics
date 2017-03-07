@@ -37,7 +37,7 @@ def parse_file( fname, points, transform, screen, color ):
     cmd.close()
     print script
 
-    
+        
     
     save_ppm(screen, fname)
     return 

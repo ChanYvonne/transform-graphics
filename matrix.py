@@ -98,6 +98,7 @@ def new_matrix(rows = 4, cols = 4):
     return m
 
 #testing
+'''
 m1 = new_matrix(4,4)
 for r in range(len(m1[0])):
     for c in range(len(m1)):
@@ -108,3 +109,4 @@ print_matrix(m1)
 t1 = make_translate(1,4,2)
 print_matrix(t1)
 print_matrix(matrix_mult(t1,m1))
+'''
