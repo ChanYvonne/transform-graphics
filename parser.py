@@ -1,6 +1,6 @@
 from display import *
-from matrix import *
 from draw import *
+from matrix import *
 
 """
 Goes through the file named filename and performs all of the actions listed in that file.
@@ -41,23 +41,40 @@ def parse_file( fname, edges, transform, screen, color ):
 
     for i in range(len(script)):
         if script[i]=="display":
+            clear_screen(screen)
             draw_lines(edges, screen, color)
-            save_ppm(screen, fname)
+            save_ppm( screen, "pic.ppm")
         if script[i]=="apply":
-            parse_helper(script[i], (script[i+1]).split('\n'),[],screen,color)
+            matrix_mult(transform, edges)
         if script[i]=="line":
-            points=(script[i+1]).split("\n")
-            add_edge(edges, points[0], points[1],points[2],points[3],points[4],points[5])
+            points=(script[i+1]).split()
+            #print points
+            add_edge(edges, float(points[0]), float(points[1]),float(points[2]),float(points[3]),float(points[4]),float(points[5]))
         if script[i]=="ident":
-            transform = ident(m)
+            ident(m)
+            transform = m
         if script[i]=="scale":
-            parse_helper(script[i], (script[i+1]).split('\n'),[],screen,color)
+            scalar = (script[i+1]).split()
+            scal = make_scale(float(scalar[0]),float(scalar[1]),float(scalar[2]))
+            #print_matrix(scal)
+            transform = matrix_mult(transform, scal)
+            print_matrix(transform)
         if script[i]=="move":
-            parse_helper(script[i], (script[i+1]).split('\n'),[],screen,color)
+            trans = (script[i+1]).split()
+            move = make_translate(float(trans[0]),float(trans[1]), float(trans[2]))
+            transform = matrix_mult(transform, move)
+            print_matrix(transform)
         if script[i]=="rotate":
-            parse_helper(script[i], (script[i+1]).split('\n'),[],screen,color)
+            rot = (script[i+1]).split()
+            if rot[0] == 'x':
+                transform = matrix_mult(transform,make_rotX(float(rot[1])))
+            if rot[0] == 'y':
+                transform = matrix_mult(transform,make_rotY(float(rot[1])))
+            if rot[0] == 'z':
+                transform = matrix_mult(transform,make_rotZ(float(rot[1])))
+            print_matrix(transform)
         if script[i]=="save":
+            draw_lines(edges, screen, color)
             save_ppm(screen, script[i+1])
-
-def parse_helper(script, points, transform, screen, color ):
-    pass 
+        if script[i]=="quit":
+            break
