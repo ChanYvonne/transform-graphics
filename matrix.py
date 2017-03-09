@@ -1,18 +1,24 @@
 import math
 import random
 
+def transpose(matrix):
+    m = new_matrix()
+    for r in range(4):
+        for c in range(4):
+            m[r][c] = matrix[c][r];
+    return m;
+
 def make_translate( x, y, z ):
     m = new_matrix()
     for r in range(len(m[0])):
         for c in range(len(m)):
             if c == r:
                 m[c][r]=1
-    m[3][0]=x
-    m[3][1]=y
-    m[3][2]=z
-    return m              
+    m[0][3]=x
+    m[1][3]=y
+    m[2][3]=z
+    return transpose(m)              
                 
-
 def make_scale( x, y, z ):
     diagonal = [x, y, z, 1]
     m = new_matrix()
@@ -23,35 +29,35 @@ def make_scale( x, y, z ):
 def make_rotX( theta ):    
     angle = math.radians(theta)
     m = new_matrix()
-    m[0][0] = 1
-    m[0][1] = math.cos(angle)
-    m[2][1] = (-1)*(math.sin(angle))
+    m[0][0] = 1.0
+    m[1][1] = math.cos(angle)
+    m[1][2] = (-1)*(math.sin(angle))
     m[2][2] = math.cos(angle)
-    m[1][2] = math.sin(angle)
-    m[3][3] = 1
-    return m
+    m[2][1] = math.sin(angle)
+    m[3][3] = 1.0
+    return transpose(m)
 
 def make_rotY( theta ):
     angle = math.radians(theta)
     m = new_matrix()
     m[0][0] = math.cos(angle)
-    m[1][1] = 1
-    m[2][0] = math.sin(angle)
-    m[0][2] = math.cos(angle)
-    m[2][2] = (-1)*(math.cos(angle))
-    m[3][3] = 1
-    return m
+    m[1][1] = 1.0
+    m[0][2] = math.sin(angle)
+    m[2][2] = math.cos(angle)
+    m[2][0] = (-1)*(math.sin(angle))
+    m[3][3] = 1.0
+    return transpose(m)
 
 def make_rotZ( theta ):
     angle = math.radians(theta)
     m = new_matrix()
     m[0][0] = math.cos(angle)
-    m[1][0] = (-1)*(math.sin(angle))
-    m[0][1] = math.sin(angle)
+    m[0][1] = (-1)*(math.sin(angle))
+    m[1][0] = math.sin(angle)
     m[1][1] = math.cos(angle)
-    m[2][2] = 1
-    m[3][3] = 1
-    return m
+    m[2][2] = 1.0
+    m[3][3] = 1.0
+    return transpose(m)
 
 def print_matrix( matrix ):
     s = ''
@@ -65,9 +71,9 @@ def ident( matrix ):
     for r in range( len( matrix[0] ) ):
         for c in range( len(matrix) ):
             if r == c:
-                matrix[c][r] = 1
+                matrix[c][r] = 1.0
             else:
-                matrix[c][r] = 0
+                matrix[c][r] = 0.0
 
 def scalar_mult( matrix, s ):
     for r in range( len( matrix[0] ) ):
@@ -95,25 +101,20 @@ def new_matrix(rows = 4, cols = 4):
     for c in range( cols ):
         m.append( [] )
         for r in range( rows ):
-            m[c].append( 0 )
+            m[c].append( 0.0 )
     return m
 
 #testing
 '''
-m1 = new_matrix(4,4)
-for r in range(len(m1[0])):
-    for c in range(len(m1)):
-        m1[c][r]= random.randint(0,5)
-        if (r == 3):
-            m1[c][r]=1
-print_matrix(m1)
 t1 = make_translate(1,4,2)
-print_matrix(t1)
+t1 = make_scale(1,4,6)
 t1 = make_rotX(30)
-print_matrix(t1)
+t2 = make_rotX2(30)
 t1 = make_rotY(30)
-print_matrix(t1)
+t2 = make_rotY2(30)
 t1 = make_rotZ(30)
-print_matrix(t1)
+t2 = make_rotZ2(30)
+#print_matrix(t1)
+#print_matrix(t2)
 print_matrix(matrix_mult(t1,m1))
 '''

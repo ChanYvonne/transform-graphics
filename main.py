@@ -51,33 +51,32 @@ def parse_file( fname, edges, transform, screen, color ):
             save_ppm( screen, "pic.ppm")
         if script[i]=="apply":
             matrix_mult(transform, edges)
-            transform = m
         if script[i]=="line":
             points=(script[i+1]).split()
             #print points
-            add_edge(edges, int(points[0]), int(points[1]),int(points[2]),int(points[3]),int(points[4]),int(points[5]))
+            add_edge(edges, float(points[0]), float(points[1]),float(points[2]),float(points[3]),float(points[4]),float(points[5]))
         if script[i]=="ident":
             ident(m)
             transform = m
         if script[i]=="scale":
             scalar = (script[i+1]).split()
-            scal = make_scale(int(scalar[0]),int(scalar[1]),int(scalar[2]))
+            scal = make_scale(float(scalar[0]),float(scalar[1]),float(scalar[2]))
             #print_matrix(scal)
             transform = matrix_mult(transform, scal)
             print_matrix(transform)
         if script[i]=="move":
             trans = (script[i+1]).split()
-            move = make_translate(int(trans[0]),int(trans[1]), int(trans[2]))
+            move = make_translate(float(trans[0]),float(trans[1]), float(trans[2]))
             transform = matrix_mult(transform, move)
             print_matrix(transform)
         if script[i]=="rotate":
             rot = (script[i+1]).split()
             if rot[0] == 'x':
-                transform = matrix_mult(transform,make_rotX(int(rot[1])))
+                transform = matrix_mult(transform,make_rotX(float(rot[1])))
             if rot[0] == 'y':
-                transform = matrix_mult(transform,make_rotY(int(rot[1])))
+                transform = matrix_mult(transform,make_rotY(float(rot[1])))
             if rot[0] == 'z':
-                transform = matrix_mult(transform,make_rotZ(int(rot[1])))
+                transform = matrix_mult(transform,make_rotZ(float(rot[1])))
             print_matrix(transform)
         if script[i]=="save":
             draw_lines(edges, screen, color)
