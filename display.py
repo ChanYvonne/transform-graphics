@@ -42,7 +42,7 @@ def save_ppm( screen, fname ):
             row+= str( pixel[ BLUE ] ) + ' '
         ppm+= row + '\n'
     f.write( ppm )
-    print "saving as " + fname
+    print "saving as " + fname+", see that for image"
     f.close()
 
 def save_extension( screen, fname ):

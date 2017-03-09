@@ -46,8 +46,9 @@ def parse_file( fname, edges, transform, screen, color ):
 
     for i in range(len(script)):
         if script[i]=="display":
+            clear_screen(screen)
             draw_lines(edges, screen, color)
-            display(screen)
+            save_ppm( screen, "pic.ppm")
         if script[i]=="apply":
             edges = matrix_mult(transform, edges) 
         if script[i]=="line":
@@ -57,28 +58,29 @@ def parse_file( fname, edges, transform, screen, color ):
         if script[i]=="ident":
             ident(m)
             transform = m
-            print_matrix(transform)
         if script[i]=="scale":
             scalar = (script[i+1]).split()
             scal = make_scale(int(scalar[0]),int(scalar[1]),int(scalar[2]))
             #print_matrix(scal)
-            #print_matrix(transform)
-            transform = matrix_mult(scal,transform)
+            transform = matrix_mult(transform, scal)
+            print_matrix(transform)
         if script[i]=="move":
             trans = (script[i+1]).split()
-            move = make_scale(int(trans[0]),int(trans[1]), int(trans[2]))
-            transform = matrix_mult(move,transform)
+            move = make_translate(int(trans[0]),int(trans[1]), int(trans[2]))
+            transform = matrix_mult(transform, move)
+            print_matrix(transform)
         if script[i]=="rotate":
             rot = (script[i+1]).split()
             if rot[0] == 'x':
-                transform = matrix_mult(make_rotX(int(rot[1])),transform)
+                transform = matrix_mult(transform,make_rotX(int(rot[1])))
             if rot[0] == 'y':
-                transform = matrix_mult(make_rotY(int(rot[1])),transform)
+                transform = matrix_mult(transform,make_rotY(int(rot[1])))
             if rot[0] == 'z':
-                transform = matrix_mult(make_rotZ(int(rot[1])),transform)
+                transform = matrix_mult(transform,make_rotZ(int(rot[1])))
+            print_matrix(transform)
         if script[i]=="save":
             draw_lines(edges, screen, color)
-            save_extention(screen, script[i+1])
+            save_ppm(screen, script[i+1])
         if script[i]=="quit":
             break
 
