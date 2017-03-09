@@ -50,7 +50,8 @@ def parse_file( fname, edges, transform, screen, color ):
             draw_lines(edges, screen, color)
             save_ppm( screen, "pic.ppm")
         if script[i]=="apply":
-            edges = matrix_mult(transform, edges) 
+            matrix_mult(transform, edges)
+            transform = m
         if script[i]=="line":
             points=(script[i+1]).split()
             #print points
